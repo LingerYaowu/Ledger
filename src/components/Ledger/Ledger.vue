@@ -147,7 +147,7 @@ const tigger_message = () => {
                     }" />
                 </div>
                 <div class="l_tools">
-                    <div class="all_bill" @click="router.push({ path: '/bill_detailed' })">
+                    <div class="all_bill" @click="router.push({ path: '/Accounting' })">
                         <span class="iconfont icon-zhangdan"></span>
                         <span>账单</span>
                     </div>
