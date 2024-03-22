@@ -15,7 +15,7 @@ const routes = [
     {
         path : '/Accounting',
         name : 'Accounting',
-        component : BillDetailed
+        component : Accounting
     }
 ];
 
