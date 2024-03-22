@@ -106,7 +106,7 @@ const tigger_message = () => {
         isshow_message.value = true;
         setTimeout(() => {
             isshow_message.value = false;
-        }, 1800);
+        }, 2000);
     }
 };
 </script>

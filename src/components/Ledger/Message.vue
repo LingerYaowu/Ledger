@@ -14,35 +14,35 @@ const messages = defineProps({
 </template>
 <style scoped>
 .message_outside {
-    width: 80%;
-    height: 40px;
-    background-color: rgb(51, 51, 51);
-    backdrop-filter: blur(1px);
     position: absolute;
     left: 50%;
-    top: 110%;
+    top: 50%;
+    opacity: 0;
+    z-index: -1;
     transform: translate(-50%, -50%);
-    color: white;
-    padding: 2px 10px;
-    border-radius: 5px;
+    padding: 6px 13px;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 20px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    box-shadow: 5px 5px 3px rgb(183, 183, 183);
+    color: rgb(255, 255, 255);
 }
 
 .init {
-    animation: to_top .1s linear forwards;
+    animation: to_opacity .2s linear forwards;
 }
 
-@keyframes to_top {
+@keyframes to_opacity {
     0% {
-        top: 110%;
+        opacity: 0;
+        z-index: -1;
     }
     100% {
-        top: 50%;
+        opacity: 1;
+        z-index: 100;
     }
 }
 </style>
