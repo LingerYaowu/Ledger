@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Ledger from '@cs/Ledger/Ledger.vue';
-import BillDetailed from '@cs/Ledger/BillDetailed.vue';
+import BillDetailed from '@cs/AccountingBook/BillDetailed.vue';
 
 const routes = [
     {

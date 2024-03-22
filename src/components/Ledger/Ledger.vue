@@ -13,7 +13,7 @@ import MessageVue from '@cs/Ledger/Message.vue'
 let router = useRouter();
 
 const billData = reactive({
-    init_money: 609,
+    init_money: 500+109,//微信+现金
     bill: null
 });
 const get_bill_data = () => {
