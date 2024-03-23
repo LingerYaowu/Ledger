@@ -11,7 +11,7 @@ import MessageVue from '@cs/Message.vue'
 import ConfirmVue from '@cs/Confirm.vue';
 
 // 版本
-let version = ref('v 1.1.8');
+let version = ref('v 1.2.1');
 
 // 接收useRouter()
 let router = useRouter();
