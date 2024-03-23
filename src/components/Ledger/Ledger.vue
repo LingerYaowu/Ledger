@@ -7,8 +7,8 @@ import TodayDataVue from '@cs/Ledger/TodayData.vue'
 import RecordVue from '@cs/Ledger/Record.vue'
 import AddBillVue from '@cs/Ledger/Add_bill.vue'
 import { useRouter } from 'vue-router'
-import MessageVue from '@cs/Ledger/Message.vue'
-import ConfirmVue from './Confirm.vue';
+import MessageVue from '@cs/Message.vue'
+import ConfirmVue from '@cs/Confirm.vue';
 
 // 版本
 let version = ref('v 1.1.8');
@@ -178,7 +178,11 @@ const del_record = bool=> {
                     </div>
                     <RecordVue v-for="item in current_date_bill" :key="item.id" :bill_info="item"
                         @get_bill_data="get_bill_data" 
-                        @isdel_record="()=>{isshow_confirm = true,rm_id=item.id}"
+                        @isdel_record="()=>{
+                            isshow_confirm = true;
+                            rm_id=item.id;
+                            confirm_message = `确定要删除【${item.title}】吗？？`
+                        }"
                         @remove_success="message => {
                         message_content = message;
                         tigger_message();
