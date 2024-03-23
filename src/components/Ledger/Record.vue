@@ -1,31 +1,13 @@
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue';
-import axios from 'axios';
 
-const emits = defineEmits(['get_bill_data', 'remove_success']);
+const emits = defineEmits(['get_bill_data', 'remove_success', 'isdel_record']);
 const bill_infos = defineProps(['bill_info']);
 let [cur_sel, no_cur_sel] = [ref(false), ref(false)];
 
 // 删除记录
 const delete_bill_info = () => {
-    if (confirm("删除此条记录？")) {
-        axios.post('/php/bill.php', {
-            operation: 'r',
-            id: bill_infos.bill_info.id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            emits('remove_success', '删除成功!');
-            // 提醒组件重新获取数据
-            emits('get_bill_data');
-        }).catch(error => {
-            console.warn(error.message);
-        });
-    } else {
-        cur_sel.value = false;
-    }
+    emits('isdel_record');
 };
 
 </script>

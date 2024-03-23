@@ -8,6 +8,10 @@ import RecordVue from '@cs/Ledger/Record.vue'
 import AddBillVue from '@cs/Ledger/Add_bill.vue'
 import { useRouter } from 'vue-router'
 import MessageVue from '@cs/Ledger/Message.vue'
+import ConfirmVue from './Confirm.vue';
+
+// 版本
+let version = ref('v 1.1.8');
 
 // 接收useRouter()
 let router = useRouter();
@@ -16,6 +20,7 @@ const billData = reactive({
     init_money: 500+109,//微信+现金
     bill: null
 });
+// 获取/更新数据信息
 const get_bill_data = () => {
     axios.post('/php/bill.php', {
         operation: 'q'
@@ -109,9 +114,40 @@ const tigger_message = () => {
         }, 2000);
     }
 };
+
+// 确定框
+let isshow_confirm = ref(false);
+let confirm_message = ref('');
+// 删除记录函数
+let rm_id = ref(null);
+const del_record = bool=> {
+    if(bool) {
+        axios.post('/php/bill.php', {
+            operation: 'r',
+            id: rm_id.value
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            message_content.value = '删除成功!';
+            tigger_message();
+            get_bill_data();
+        }).catch(error => {
+            message_content.value = (error.message);
+            tigger_message();
+        });
+    } else {
+        isshow_confirm.value = false;
+    }
+    isshow_confirm.value = false;
+    rm_id.value = null;
+};
 </script>
 <template>
     <div class="ledger_outside">
+        <!--去确定框-->
+        <ConfirmVue  v-if="isshow_confirm" :message="confirm_message" @result="del_record"/>
         <!-- 消息提醒框 -->
         <MessageVue v-if="isshow_message" :message="message_content" :class="{ init: isshow_message }" />
         <AddBillVue v-if="isshow_editbill" @getdata_success="message => {
@@ -128,7 +164,7 @@ const tigger_message = () => {
                     <span>记账 <span style="color:gray;font-size: 14px;">(2024/3/14 始)</span></span>
                 </div>
                 <div class="l_right">
-                    <span>⋮</span>
+                    <span>{{ version }}</span>
                 </div>
             </div>
             <CurrenBalanceVue :currentMoney="currentMoney" :expenditure="expenditure" :income="income" />
@@ -141,7 +177,9 @@ const tigger_message = () => {
                         当前日期还没有消费记录哦~
                     </div>
                     <RecordVue v-for="item in current_date_bill" :key="item.id" :bill_info="item"
-                        @get_bill_data="get_bill_data" @remove_success="message => {
+                        @get_bill_data="get_bill_data" 
+                        @isdel_record="()=>{isshow_confirm = true,rm_id=item.id}"
+                        @remove_success="message => {
                         message_content = message;
                         tigger_message();
                     }" />
@@ -164,8 +202,6 @@ const tigger_message = () => {
     </div>
 </template>
 <style scoped>
-@import 'https://at.alicdn.com/t/c/font_4468945_wy68diiv7kl.css?spm=a313x.manage_type_myprojects.i1.9.29a43a81p1A35s&file=font_4468945_wy68diiv7kl.css';
-
 /* 外层容器 */
 .ledger_outside {
     width: 100vw;
@@ -225,11 +261,8 @@ const tigger_message = () => {
 }
 
 .l_right span {
-    width: 32px;
-    height: 32px;
-    display: inline-block;
-    font-size: 20px;
-    cursor: pointer;
+    font-size: 12px;
+    color: rgb(190, 189, 189);
 }
 
 /* 主体内容 */
