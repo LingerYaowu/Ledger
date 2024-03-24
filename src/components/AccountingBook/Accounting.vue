@@ -1,7 +1,8 @@
 <script setup>
 import {ref,} from 'vue'
-import A_title from './A_title.vue';
-import Bill_line from './Bill_line.vue';
+import A_title from '@cs/AccountingBook/A_title.vue';
+import Bill_line from '@cs/AccountingBook/Bill_line.vue';
+import ControlVue from '@cs/AccountingBook/Control.vue';
 import axios from 'axios'
 import MessageVue from '@cs/Message.vue'
 
@@ -65,6 +66,7 @@ axios.post('/php/bill.php', {
             <A_title />
         </div>
         <div class="at_body">
+            <ControlVue />
             <Bill_line v-for="item in bills" :key="item.date" :billline="item" />
         </div>
     </div>

@@ -1,11 +1,17 @@
 <script setup>
-import {defineProps} from 'vue'
+import BigNumber from 'bignumber.js';
+import {defineProps, ref} from 'vue'
 
 const bill = defineProps(['billline']);
+let total = ref(0);
+bill.billline.bill_info.forEach(item=>{
+    total.value = BigNumber(item.money).plus(BigNumber(total.value));
+});
+total.value = '￥'+total.value;
 </script>
 <template>
     <div :class="{bill_line:true,reverse:billline.direction}">
-        <div class="line"></div>
+        <div class="line"><span>{{ total }}</span></div>
         <div class="data">
             <p v-for="item in billline.bill_info" :key="item.id">
                 <span class="time">{{item.date.split(' ')[1]}}</span>
@@ -14,7 +20,7 @@ const bill = defineProps(['billline']);
             </p>
         </div>
         <div class="date">
-            {{ billline.date }}
+            <i>{{ billline.date.split('-').join('/') }}</i>
         </div>
     </div>
 </template>
@@ -42,13 +48,12 @@ const bill = defineProps(['billline']);
         transform: translateX(-50%);
         top: 0;
     }
-
-    .line::after {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
+    
+    .line >span {
+        padding: 4px 8px;
+        font-size: 14px;
+        color: white;
+        border-radius: 15px;
         background-color: #394952;
         position: absolute;
         bottom: 0;
